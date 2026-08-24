@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RadioCalico Live</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='player.css') }}">
+</head>
+<body>
+  <header class="site-header player-header">
+    <div class="header-spacer" aria-hidden="true"></div>
+    <div class="brand">
+      <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="RadioCalico">
+      <span class="brand-name">RadioCalico</span>
+    </div>
+    <button id="header-listen-btn" class="btn-cta" type="button">
+      <svg id="header-play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="header-pause-icon" class="icon-hidden" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      <span id="header-listen-label">Listen Now</span>
+    </button>
+  </header>
+
+  <main class="site-main radio-layout">
+    <section class="player-card">
+      <div class="np-row" id="now-playing">
+        <div class="cover-wrap">
+          <span class="on-air-badge"><span class="on-air-dot"></span>ON AIR</span>
+          <img id="np-cover" class="np-cover" alt="Album art" hidden>
+        </div>
+        <div class="np-info">
+          <h1 class="np-title" id="np-title">—</h1>
+          <div class="np-artist" id="np-artist">—</div>
+          <p class="np-meta" id="np-meta"></p>
+
+          <hr class="divider">
+
+          <div class="np-actions-row">
+            <div class="rating-row" id="rating-row">
+              <button id="thumbs-up-btn" class="rating-btn" type="button" aria-label="Thumbs up" aria-pressed="false">
+                <svg viewBox="0 0 24 24"><path d="M2 21h2a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H2v11zm19.83-9.59c.11-.25.17-.52.17-.8V9.5A2.5 2.5 0 0 0 19.5 7H15V4.5A2.5 2.5 0 0 0 12.5 2c-.28 0-.53.11-.71.29l-.79.71-4 6.14V21h11l3.53-8.09c.06-.16.09-.32.09-.5v-1z"/></svg>
+                <span>Like</span>
+                <span class="rating-count" id="thumbs-up-count">0</span>
+              </button>
+              <button id="thumbs-down-btn" class="rating-btn" type="button" aria-label="Thumbs down" aria-pressed="false">
+                <svg viewBox="0 0 24 24"><path d="M22 3h-2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h2V3zM2.17 12.59c-.11.25-.17.52-.17.8v1.11A2.5 2.5 0 0 0 4.5 17H9v2.5A2.5 2.5 0 0 0 11.5 22c.28 0 .53-.11.71-.29l.79-.71 4-6.14V3H6l-3.53 8.09c-.06.16-.09.32-.09.5v1z"/></svg>
+                <span class="rating-count" id="thumbs-down-count">0</span>
+              </button>
+            </div>
+            <div class="started-at" id="started-at" hidden>
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.41 4.24 4.25-1.41 1.41L11 13V6h2z"/></svg>
+              <span id="started-at-text"></span>
+            </div>
+          </div>
+          <div class="rating-status" id="rating-status"></div>
+        </div>
+      </div>
+
+      <div class="transport-bar">
+        <button id="play-btn" class="play-btn" aria-label="Play">
+          <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" class="icon-hidden" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+
+        <div class="elapsed" id="elapsed">00:00</div>
+        <div class="status" id="status">Ready</div>
+
+        <div class="volume-row">
+          <svg class="volume-icon" viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.24 2.5-4.02z"/></svg>
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+        </div>
+
+        <audio id="audio" preload="none"></audio>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="recent-card">
+        <div class="recent-card-header">
+          <h2>Recently Played</h2>
+          <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8z"/></svg>
+        </div>
+        <ol id="recent-list" class="recent-list"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    &copy; {{ current_year }} RadioCalico. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+  <script type="application/json" id="radio-calico-config">{{ {"STREAM_URL": stream_url, "METADATA_URL": metadata_url, "COVER_URL": cover_url} | tojson }}</script>
+  <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+</body>
+</html>

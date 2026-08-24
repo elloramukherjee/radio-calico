@@ -1,0 +1,143 @@
+/* RadioCalico shared brand theme — see RadioCalico_Style_Guide.txt */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --mint: #D8F2D5;
+  --forest: #1F4E23;
+  --teal: #38A29D;
+  --calico-orange: #EFA63C;
+  --charcoal: #231F20;
+  --cream: #F5EADA;
+  --white: #FFFFFF;
+
+  --font-heading: "Montserrat", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* SVG elements don't reliably pick up the UA [hidden] rule in every browser. */
+[hidden] {
+  display: none !important;
+}
+
+/* Some browsers also don't reflect the .hidden IDL property back to the
+   [hidden] attribute consistently for <svg> elements, so toggle icons via
+   this class from JS instead of the hidden property. */
+.icon-hidden {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--charcoal);
+  background: var(--white);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  color: var(--forest);
+  margin: 0 0 .5rem;
+}
+
+h1 { font-weight: 700; font-size: 3rem; line-height: 1.2; }
+h2 { font-weight: 600; font-size: 2.25rem; line-height: 1.3; }
+h3 { font-weight: 500; font-size: 1.5rem; line-height: 1.4; }
+
+a {
+  color: var(--teal);
+}
+
+.site-header {
+  background: var(--teal);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-header .logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-header .logo {
+  height: 56px;
+  width: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.site-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.site-footer {
+  background: var(--cream);
+  color: var(--forest);
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: 24px;
+}
+
+/* Buttons */
+
+.btn-primary,
+.btn-secondary {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: .75rem 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.btn-primary {
+  background: var(--forest);
+  color: var(--white);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--teal);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--forest);
+  border: 2px solid var(--forest);
+}
+
+.btn-secondary:hover {
+  background: var(--mint);
+}
+
+/* Form inputs */
+
+input[type="text"],
+input[type="search"] {
+  font-family: var(--font-body);
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  padding: .5rem;
+  color: var(--charcoal);
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(56, 162, 157, 0.3);
+}

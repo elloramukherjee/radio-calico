@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RadioCalico Prototype</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="RadioCalico">
+  </header>
+
+  <main class="site-main prototype-main">
+    <h2>Prototype Items</h2>
+    <form id="add-form" class="add-form">
+      <input id="name-input" type="text" placeholder="New item name" required>
+      <button type="submit" class="btn-primary">Add</button>
+    </form>
+    <ul id="items" class="item-list"></ul>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/prototype.js') }}"></script>
+</body>
+</html>
