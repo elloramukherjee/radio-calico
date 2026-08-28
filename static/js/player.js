@@ -131,6 +131,15 @@
     return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   }
 
+  function getSourceQuality(data) {
+    const bitDepth = data.bit_depth ?? data.bitDepth ?? data.bitdepth;
+    const sampleRate = data.sample_rate ?? data.sampleRate ?? data.samplerate;
+    if (!bitDepth || !sampleRate) return null;
+    // Metadata may report the sample rate in Hz (44100) or already in kHz (44.1).
+    const sampleRateKhz = sampleRate > 1000 ? sampleRate / 1000 : sampleRate;
+    return `${bitDepth}-bit / ${sampleRateKhz.toFixed(1)}kHz`;
+  }
+
   const thumbsUpBtn = document.getElementById('thumbs-up-btn');
   const thumbsDownBtn = document.getElementById('thumbs-down-btn');
   const thumbsUpCount = document.getElementById('thumbs-up-count');
@@ -239,9 +248,8 @@
         const parts = [];
         if (data.album) parts.push(data.album);
         if (data.date) parts.push(data.date);
-        if (data.bit_depth && data.sample_rate) {
-          parts.push(`${data.bit_depth}-bit / ${(data.sample_rate / 1000).toFixed(1)}kHz`);
-        }
+        const sourceQuality = getSourceQuality(data);
+        if (sourceQuality) parts.push(sourceQuality);
         npMeta.textContent = parts.join(' · ');
 
         startedAt.hidden = false;
